@@ -1,0 +1,10 @@
+services:
+  - type: web
+    name: docstyle-backend
+    env: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    plan: free
+    envVars:
+      - key: PORT
+        value: 5000

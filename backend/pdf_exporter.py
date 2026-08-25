@@ -16,7 +16,29 @@ def export_to_pdf(docx_path: str, pdf_path: str) -> bool:
         print(f"[-] Error: {abs_docx} does not exist.")
         return False
 
-    # Clean direct script
+    # 1. Try LibreOffice conversion on Linux / Render
+    try:
+        out_dir = os.path.dirname(abs_pdf)
+        res = subprocess.run(
+            ["soffice", "--headless", "--convert-to", "pdf", abs_docx, "--outdir", out_dir],
+            capture_output=True,
+            text=True,
+            timeout=30
+        )
+        expected_pdf = os.path.join(out_dir, os.path.splitext(os.path.basename(abs_docx))[0] + ".pdf")
+        if os.path.exists(expected_pdf):
+            if expected_pdf != abs_pdf:
+                try:
+                    if os.path.exists(abs_pdf):
+                        os.remove(abs_pdf)
+                    os.replace(expected_pdf, abs_pdf)
+                except Exception:
+                    pass
+            return True
+    except Exception as e:
+        pass
+
+    # 2. Try Windows MS Word COM Automation
     export_py = f"""
 import sys
 import os
@@ -51,3 +73,4 @@ finally:
         print(f"Notice: PDF export attempt: {e}")
 
     return os.path.exists(abs_pdf)
+
