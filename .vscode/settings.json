@@ -1,5 +1,10 @@
 {
   "pyrefly.enable": false,
+  "python.analysis.extraPaths": [
+    "${workspaceFolder}/backend",
+    "${workspaceFolder}/docstyle-engine/backend",
+    "./backend"
+  ],
   "python.analysis.diagnosticSeverityOverrides": {
     "reportMissingImports": "none"
   },
