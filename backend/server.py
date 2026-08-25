@@ -19,13 +19,26 @@ from engine.classifiers.rule_classifier import classify_ast_blocks
 from engine.pipeline.transformation_pipeline import run_docstyle_pipeline
 from pdf_exporter import export_to_pdf
 
+import tempfile
+
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 SAMPLES_DIR = os.path.join(BASE_DIR, 'samples')
-OUTPUTS_DIR = os.path.join(BASE_DIR, 'outputs')
-TEMP_DIR = os.path.join(BASE_DIR, 'temp')
 
-for d in [SAMPLES_DIR, OUTPUTS_DIR, TEMP_DIR]:
-    os.makedirs(d, exist_ok=True)
+# Check if running in Vercel Serverless environment or read-only filesystem
+is_vercel = os.environ.get('VERCEL') == '1' or os.environ.get('AWS_LAMBDA_FUNCTION_NAME') is not None
+
+if is_vercel or not os.access(BASE_DIR, os.W_OK):
+    OUTPUTS_DIR = os.path.join(tempfile.gettempdir(), 'docstyle_outputs')
+    TEMP_DIR = os.path.join(tempfile.gettempdir(), 'docstyle_temp')
+else:
+    OUTPUTS_DIR = os.path.join(BASE_DIR, 'outputs')
+    TEMP_DIR = os.path.join(BASE_DIR, 'temp')
+
+for d in [OUTPUTS_DIR, TEMP_DIR]:
+    try:
+        os.makedirs(d, exist_ok=True)
+    except Exception:
+        pass
 
 def clean_all_temp_files():
     """Wipes all temporary processing and preview files."""
