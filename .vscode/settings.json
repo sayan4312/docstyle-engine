@@ -1,0 +1,13 @@
+{
+  "pyrefly.enable": false,
+  "python.analysis.diagnosticSeverityOverrides": {
+    "reportMissingImports": "none"
+  },
+  "python.analysis.ignore": [
+    "c:/__pyrefly_virtual__/**"
+  ],
+  "files.exclude": {
+    "**/__pycache__": true,
+    "**/*.pyc": true
+  }
+}

@@ -1,0 +1,28 @@
+# Node & Vite
+node_modules
+dist
+.vercel
+*.local
+
+# Python
+__pycache__
+*.pyc
+*.pyo
+*.pyd
+.venv
+venv
+ENV
+
+# DocStyle Temp Outputs & Caches
+backend/outputs/*
+!backend/outputs/.gitkeep
+backend/temp/*
+!backend/temp/.gitkeep
+frontend/public/artifacts/*
+!frontend/public/artifacts/.gitkeep
+
+# OS & IDE
+.DS_Store
+Thumbs.db
+.vscode/*
+!.vscode/settings.json
