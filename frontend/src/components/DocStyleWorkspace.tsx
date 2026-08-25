@@ -600,16 +600,16 @@ export const DocStyleWorkspace: React.FC = () => {
             {/* Download Action Buttons */}
             <div className="flex items-center gap-3 w-full sm:w-auto">
               <a
-                href={`${API_BASE}/download/${results.docx_filename}`}
-                download
+                href={results.docx_data_url || `${API_BASE}/download/${results.docx_filename}`}
+                download={results.docx_filename || "Output Document.docx"}
                 className="flex-1 sm:flex-initial bg-[#111111] hover:bg-black text-white px-5 py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-transform hover:scale-105"
               >
                 <Download className="w-4 h-4" /> Download DOCX
               </a>
-              {results.pdf_filename && (
+              {(results.pdf_data_url || results.pdf_filename) && (
                 <a
-                  href={`${API_BASE}/download/${results.pdf_filename}`}
-                  download
+                  href={results.pdf_data_url || `${API_BASE}/download/${results.pdf_filename}`}
+                  download={results.pdf_filename || "Output Document.pdf"}
                   className="flex-1 sm:flex-initial bg-[#E5DDD3] hover:bg-[#d8cec2] text-[#111111] px-5 py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-transform hover:scale-105"
                 >
                   <FileCheck className="w-4 h-4 text-[#111111]" /> Download Vector PDF
@@ -619,14 +619,14 @@ export const DocStyleWorkspace: React.FC = () => {
           </div>
 
           {/* Embedded Vector PDF Output Viewer */}
-          {results.pdf_filename && (
+          {(results.pdf_data_url || results.pdf_filename) && (
             <div>
               <div className="flex items-center justify-between mb-3">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center gap-2">
                   <FileCheck className="w-4 h-4 text-emerald-600" /> Live Vector PDF Output Viewer
                 </h4>
                 <a
-                  href={`${API_BASE}/preview/${results.pdf_filename}`}
+                  href={results.pdf_data_url || `${API_BASE}/preview/${results.pdf_filename}`}
                   target="_blank"
                   rel="noreferrer"
                   className="text-[11px] font-semibold text-stone-600 hover:text-black underline flex items-center gap-1"
@@ -637,7 +637,7 @@ export const DocStyleWorkspace: React.FC = () => {
 
               {/* Mobile Quick Tap Banner for Phones */}
               <a 
-                href={`${API_BASE}/preview/${results.pdf_filename}`}
+                href={results.pdf_data_url || `${API_BASE}/preview/${results.pdf_filename}`}
                 target="_blank" 
                 rel="noreferrer"
                 className="flex sm:hidden items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#111111] text-white text-xs font-semibold mb-2 shadow-xs"
@@ -650,7 +650,7 @@ export const DocStyleWorkspace: React.FC = () => {
 
               <div className="w-full h-80 sm:h-[550px] rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
                 <iframe
-                  src={`${API_BASE}/preview/${results.pdf_filename}#toolbar=1&navpanes=0&scrollbar=0&view=FitH`}
+                  src={results.pdf_data_url || `${API_BASE}/preview/${results.pdf_filename}#toolbar=1&navpanes=0&scrollbar=0&view=FitH`}
                   className="w-full h-full border-0 rounded-2xl"
                   title="Restyled Output Document Preview"
                 />

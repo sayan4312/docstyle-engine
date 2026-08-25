@@ -43,7 +43,26 @@ def run_docstyle_pipeline(template_path: str, content_path: str, output_docx_pat
     pdf_created = render_docx_to_pdf(saved_docx, output_pdf_path)
     pdf_exists = os.path.exists(output_pdf_path)
 
-    # 6. Validate Output & Verbatim Text Integrity
+    # 6. Encode PDF and DOCX to Base64 Data URLs for Serverless Compatibility
+    import base64
+
+    pdf_data_url = None
+    if pdf_exists and os.path.exists(output_pdf_path):
+        try:
+            with open(output_pdf_path, "rb") as f:
+                pdf_data_url = f"data:application/pdf;base64,{base64.b64encode(f.read()).decode('utf-8')}"
+        except Exception:
+            pass
+
+    docx_data_url = None
+    if os.path.exists(saved_docx):
+        try:
+            with open(saved_docx, "rb") as f:
+                docx_data_url = f"data:application/vnd.openxmlformats-officedocument.wordprocessingml.document;base64,{base64.b64encode(f.read()).decode('utf-8')}"
+        except Exception:
+            pass
+
+    # 7. Validate Output & Verbatim Text Integrity
     raw_lines = ast.metadata.get("raw_lines", [])
     report = validate_verbatim_integrity(raw_lines, saved_docx)
     struct_summary = validate_ast_structure(styled_ast)
@@ -53,6 +72,8 @@ def run_docstyle_pipeline(template_path: str, content_path: str, output_docx_pat
         "ast": styled_ast.to_dict(),
         "docx_filename": os.path.basename(saved_docx),
         "pdf_filename": os.path.basename(output_pdf_path) if pdf_exists else None,
+        "pdf_data_url": pdf_data_url,
+        "docx_data_url": docx_data_url,
         "docx_size_kb": round(os.path.getsize(saved_docx) / 1024, 1),
         "pdf_size_kb": round(os.path.getsize(output_pdf_path) / 1024, 1) if pdf_exists else 0,
         "integrity": {
