@@ -633,15 +633,13 @@ export const DocStyleWorkspace: React.FC = () => {
               >
                 <Download className="w-4 h-4" /> Download DOCX
               </a>
-              {(results.pdf_data_url || results.pdf_filename) && (
-                <a
-                  href={results.pdf_data_url || `${API_BASE}/download/${results.pdf_filename}`}
-                  download={results.pdf_filename || "Output Document.pdf"}
-                  className="flex-1 sm:flex-initial bg-[#E5DDD3] hover:bg-[#d8cec2] text-[#111111] px-5 py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-transform hover:scale-105"
-                >
-                  <FileCheck className="w-4 h-4 text-[#111111]" /> Download Vector PDF
-                </a>
-              )}
+              <a
+                href={results.pdf_data_url || `${API_BASE}/download/${results.pdf_filename || 'Output Document.pdf'}`}
+                download={results.pdf_filename || "Output Document.pdf"}
+                className="flex-1 sm:flex-initial bg-[#E5DDD3] hover:bg-[#d8cec2] text-[#111111] px-5 py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-transform hover:scale-105"
+              >
+                <FileCheck className="w-4 h-4 text-[#111111]" /> Download Vector PDF
+              </a>
             </div>
           </div>
 
