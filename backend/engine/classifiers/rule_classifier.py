@@ -31,8 +31,8 @@ def classify_ast_blocks(ast: CanonicalAST) -> CanonicalAST:
     for i, b in enumerate(blocks):
         text = b.text.strip()
         if not text:
-            b.type = SemanticType.PAGE_BREAK.value
-            b.confidence = 1.0
+            b.type = SemanticType.PARAGRAPH.value
+            b.confidence = 0.50
             b.detection_method = "empty_line"
             continue
 
@@ -66,8 +66,8 @@ def classify_ast_blocks(ast: CanonicalAST) -> CanonicalAST:
             b.detection_method = "unit_module_subheading"
             continue
 
-        # Course Outcome Code Blocks e.g. "CO1 (Understand): ...", "CO2 (Apply): ..."
-        if re.match(r'^(CO\d+|Course\s+Outcome\s*\d*)', text, re.IGNORECASE):
+        # Course Outcome Code Blocks e.g. "CO1 (Understand): ..."
+        if re.match(r'^(CO\d+|Course\s+Outcome\s*\d*)', text, re.IGNORECASE) and len(text) < 30:
             b.type = SemanticType.HEADING_3.value
             b.level = 3
             b.confidence = 0.92

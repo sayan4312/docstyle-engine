@@ -233,6 +233,8 @@ def render_ast_to_docx(ast: CanonicalAST, template: TemplateModel, output_path: 
 
         else:
             # Paragraph
+            if not text or not text.strip():
+                continue
             p = doc.add_paragraph()
             p.alignment = WD_ALIGN_PARAGRAPH.LEFT
             p.paragraph_format.alignment = WD_ALIGN_PARAGRAPH.LEFT
