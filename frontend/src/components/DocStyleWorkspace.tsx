@@ -313,9 +313,9 @@ export const DocStyleWorkspace: React.FC = () => {
                 </div>
 
                 {/* Mobile Quick Tap Banner for Phones */}
-                <a 
+                <a
                   href={templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? templateLocalUrl : (templatePreviewData?.preview_pdf_data_url || `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}`)}
-                  target="_blank" 
+                  target="_blank"
                   rel="noreferrer"
                   className="flex sm:hidden items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#111111] text-white text-xs font-semibold mb-2 shadow-xs"
                 >

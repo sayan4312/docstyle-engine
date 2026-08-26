@@ -31,29 +31,31 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ onSelectFeature }) => 
         <div
           id="card-design-transfer"
           onClick={() => onSelectFeature?.('Visual Design Transfer')}
-          className="lg:col-span-7 h-[320px] sm:h-[360px] rounded-[30px] overflow-hidden relative group cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 border border-stone-200/50 bg-[#111111] transform hover:-translate-y-2"
+          className="lg:col-span-7 h-[360px] sm:h-[400px] rounded-[30px] overflow-hidden relative group cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 border border-stone-200/50 bg-[#111111] transform hover:-translate-y-2 flex flex-col justify-between"
         >
-          <img
-            src="/artifacts/card_design_transfer_1787650424155.jpg"
-            alt="Visual Design Transfer Engine"
-            className="w-full h-full object-cover object-center filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <img
+              src="/artifacts/card_design_transfer.jpg"
+              alt="Visual Design Transfer Engine"
+              className="w-full h-full object-cover object-top opacity-75 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#111111] via-[#111111]/70 to-transparent" />
+          </div>
 
-          <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-10">
-            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30">
+          <div className="relative top-6 left-6 right-6 flex items-center justify-between z-10 px-2">
+            <div className="w-10 h-10 rounded-2xl bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/20 shadow-sm">
               <Palette className="w-5 h-5" />
             </div>
-            <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity border border-white/20">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-8 text-left z-10">
-            <h3 className="text-white font-sans-clean font-extrabold text-2xl sm:text-3xl tracking-tight mb-2">
+          <div className="relative p-8 text-left z-10 bg-gradient-to-t from-[#111111] via-[#111111]/90 to-transparent pt-12">
+            <h3 className="text-white font-sans-clean font-extrabold text-2xl sm:text-3xl tracking-tight mb-2 drop-shadow-sm">
               Visual Design Transfer
             </h3>
-            <p className="text-stone-200 text-sm leading-relaxed max-w-lg">
+            <p className="text-stone-300 text-sm leading-relaxed max-w-lg font-normal">
               Extracts primary accent colors, font families, page margins, line spacing, and table header fill colors directly from template documents.
             </p>
           </div>
@@ -63,29 +65,31 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ onSelectFeature }) => 
         <div
           id="card-semantic-parsing"
           onClick={() => onSelectFeature?.('Semantic Block Parsing')}
-          className="lg:col-span-5 h-[320px] sm:h-[360px] rounded-[30px] overflow-hidden relative group cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 border border-stone-200/50 bg-[#EDE5DD] transform hover:-translate-y-2"
+          className="lg:col-span-5 h-[360px] sm:h-[400px] rounded-[30px] overflow-hidden relative group cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 border border-stone-200/50 bg-[#161B22] transform hover:-translate-y-2 flex flex-col justify-between"
         >
-          <img
-            src="/artifacts/card_semantic_parsing_1787650445462.jpg"
-            alt="Semantic Block Parsing"
-            className="w-full h-full object-cover object-center filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <img
+              src="/artifacts/card_semantic_parsing.jpg"
+              alt="Semantic Block Parsing"
+              className="w-full h-full object-cover object-top opacity-75 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#161B22] via-[#161B22]/70 to-transparent" />
+          </div>
 
-          <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-10">
-            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30">
+          <div className="relative top-6 left-6 right-6 flex items-center justify-between z-10 px-2">
+            <div className="w-10 h-10 rounded-2xl bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/20 shadow-sm">
               <FileText className="w-5 h-5" />
             </div>
-            <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity border border-white/20">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-8 text-left z-10">
-            <h3 className="text-white font-sans-clean font-extrabold text-2xl sm:text-3xl tracking-tight mb-2">
+          <div className="relative p-8 text-left z-10 bg-gradient-to-t from-[#161B22] via-[#161B22]/90 to-transparent pt-12">
+            <h3 className="text-white font-sans-clean font-extrabold text-2xl sm:text-3xl tracking-tight mb-2 drop-shadow-sm">
               Semantic Parsing
             </h3>
-            <p className="text-stone-200 text-sm leading-relaxed">
+            <p className="text-stone-300 text-sm leading-relaxed font-normal">
               Intelligently classifies text into titles, headings, subheadings, body paragraphs, bullet lists, and formatted data tables.
             </p>
           </div>
@@ -95,29 +99,31 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ onSelectFeature }) => 
         <div
           id="card-verbatim-integrity"
           onClick={() => onSelectFeature?.('Verbatim Content Integrity')}
-          className="lg:col-span-5 h-[320px] sm:h-[360px] rounded-[30px] overflow-hidden relative group cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 border border-emerald-900/40 bg-[#2D4A3E] transform hover:-translate-y-2"
+          className="lg:col-span-5 h-[360px] sm:h-[400px] rounded-[30px] overflow-hidden relative group cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 border border-emerald-900/40 bg-[#0D1F18] transform hover:-translate-y-2 flex flex-col justify-between"
         >
-          <img
-            src="/artifacts/card_verbatim_integrity_1787650610836.jpg"
-            alt="Verbatim Content Integrity"
-            className="w-full h-full object-cover object-center filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+          <div className="absolute inset-0 z-0 overflow-hidden pt-14 px-4 flex items-start justify-center">
+            <img
+              src="/artifacts/card_verbatim_integrity.jpg"
+              alt="Verbatim Content Integrity"
+              className="w-full h-[70%] object-contain object-top rounded-xl opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-700 shadow-md"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#0D1F18] via-[#0D1F18]/60 to-transparent" />
+          </div>
 
-          <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-10">
-            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30">
-              <CheckCircle2 className="w-5 h-5" />
+          <div className="relative top-6 left-6 right-6 flex items-center justify-between z-10 px-2">
+            <div className="w-10 h-10 rounded-2xl bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/20 shadow-sm">
+              <CheckCircle2 className="w-5 h-5 text-emerald-400" />
             </div>
-            <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity border border-white/20">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-8 text-left z-10">
-            <h3 className="text-white font-sans-clean font-extrabold text-2xl sm:text-3xl tracking-tight mb-2">
+          <div className="relative p-8 text-left z-10 bg-gradient-to-t from-[#0D1F18] via-[#0D1F18]/90 to-transparent pt-12">
+            <h3 className="text-white font-sans-clean font-extrabold text-2xl sm:text-3xl tracking-tight mb-2 drop-shadow-sm">
               100% Verbatim Integrity
             </h3>
-            <p className="text-stone-200 text-sm leading-relaxed">
+            <p className="text-stone-300 text-sm leading-relaxed font-normal">
               Automated string similarity validation ensures 100% of input text is preserved without data loss or content alteration.
             </p>
           </div>
@@ -127,29 +133,31 @@ export const FeatureGrid: React.FC<FeatureGridProps> = ({ onSelectFeature }) => 
         <div
           id="card-vector-export"
           onClick={() => onSelectFeature?.('Vector PDF & DOCX Export')}
-          className="lg:col-span-7 h-[320px] sm:h-[360px] rounded-[30px] overflow-hidden relative group cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 border border-amber-900/40 bg-[#3D332A] transform hover:-translate-y-2"
+          className="lg:col-span-7 h-[360px] sm:h-[400px] rounded-[30px] overflow-hidden relative group cursor-pointer shadow-md hover:shadow-2xl transition-all duration-500 border border-amber-900/40 bg-[#1C1814] transform hover:-translate-y-2 flex flex-col justify-between"
         >
-          <img
-            src="/artifacts/card_vector_export_1787650668203.jpg"
-            alt="DOCX & Vector PDF Export"
-            className="w-full h-full object-cover object-center filter brightness-[0.85] group-hover:brightness-100 group-hover:scale-105 transition-all duration-700"
-          />
-          <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent" />
+          <div className="absolute inset-0 z-0 overflow-hidden">
+            <img
+              src="/artifacts/card_vector_export.jpg"
+              alt="DOCX & Vector PDF Export"
+              className="w-full h-full object-cover object-top opacity-75 group-hover:opacity-95 group-hover:scale-105 transition-all duration-700"
+            />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#1C1814] via-[#1C1814]/75 to-transparent" />
+          </div>
 
-          <div className="absolute top-6 left-6 right-6 flex items-center justify-between z-10">
-            <div className="w-10 h-10 rounded-2xl bg-white/20 backdrop-blur-md flex items-center justify-center text-white border border-white/30">
-              <FileCheck className="w-5 h-5" />
+          <div className="relative top-6 left-6 right-6 flex items-center justify-between z-10 px-2">
+            <div className="w-10 h-10 rounded-2xl bg-black/40 backdrop-blur-md flex items-center justify-center text-white border border-white/20 shadow-sm">
+              <FileCheck className="w-5 h-5 text-amber-400" />
             </div>
-            <div className="w-9 h-9 rounded-full bg-white/20 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity">
+            <div className="w-9 h-9 rounded-full bg-black/40 backdrop-blur-md flex items-center justify-center text-white opacity-0 group-hover:opacity-100 transition-opacity border border-white/20">
               <ArrowUpRight className="w-4 h-4" />
             </div>
           </div>
 
-          <div className="absolute bottom-0 left-0 right-0 p-8 text-left z-10">
-            <h3 className="text-white font-sans-clean font-extrabold text-2xl sm:text-3xl tracking-tight mb-2">
+          <div className="relative p-8 text-left z-10 bg-gradient-to-t from-[#1C1814] via-[#1C1814]/90 to-transparent pt-12">
+            <h3 className="text-white font-sans-clean font-extrabold text-2xl sm:text-3xl tracking-tight mb-2 drop-shadow-sm">
               DOCX & Vector PDF Export
             </h3>
-            <p className="text-stone-200 text-sm leading-relaxed max-w-lg">
+            <p className="text-stone-300 text-sm leading-relaxed max-w-lg font-normal">
               Generates styled Microsoft Word documents (.docx) and high-resolution vector PDFs with live browser viewer embedding.
             </p>
           </div>
