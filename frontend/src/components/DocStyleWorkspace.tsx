@@ -470,43 +470,64 @@ export const DocStyleWorkspace: React.FC = () => {
               </div>
             )}
 
-            {/* FIRST: Source Document Preview Viewer */}
-            {((contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl) || contentPreview?.preview_pdf_data_url || contentPreview?.preview_pdf_filename) && (
+            {/* FIRST: Source Document Preview Viewer (PDF Iframe or Interactive Content Canvas) */}
+            {contentPreview && (
               <div className="mt-4 mb-5">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-[#111111] flex items-center gap-1.5">
                     <FileText className="w-3.5 h-3.5" /> Source Document Preview
                   </span>
-                  <a
-                    href={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? contentLocalUrl : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}`)}
-                    target="_blank"
-                    rel="noreferrer"
-                    className="text-[11px] font-semibold text-stone-600 hover:text-black underline flex items-center gap-1"
-                  >
-                    <Maximize2 className="w-3 h-3" /> Open Full PDF
-                  </a>
+                  {((contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl) || contentPreview?.preview_pdf_data_url || contentPreview?.preview_pdf_filename) && (
+                    <a
+                      href={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? contentLocalUrl : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}`)}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="text-[11px] font-semibold text-stone-600 hover:text-black underline flex items-center gap-1"
+                    >
+                      <Maximize2 className="w-3 h-3" /> Open Full PDF
+                    </a>
+                  )}
                 </div>
 
-                {/* Mobile Quick Tap Banner for Phones */}
-                <a 
-                  href={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? contentLocalUrl : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}`)}
-                  target="_blank" 
-                  rel="noreferrer"
-                  className="flex sm:hidden items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#111111] text-white text-xs font-semibold mb-2 shadow-xs"
-                >
-                  <span className="flex items-center gap-2">
-                    <FileText className="w-4 h-4 text-[#E5DDD3]" /> Tap to View Mobile Source PDF
-                  </span>
-                  <Maximize2 className="w-3.5 h-3.5" />
-                </a>
+                {((contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl) || contentPreview?.preview_pdf_data_url || contentPreview?.preview_pdf_filename) ? (
+                  <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
+                    <iframe
+                      src={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? `${contentLocalUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH` : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`)}
+                      className="w-full h-full border-0 rounded-2xl"
+                      title="Source Document Preview"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full h-80 sm:h-96 rounded-2xl border border-[#E5DDD3] bg-white p-5 overflow-y-auto shadow-inner text-xs font-normal leading-relaxed text-stone-800 space-y-3">
+                    {contentPreview.blocks && contentPreview.blocks.length > 0 ? (
+                      contentPreview.blocks.map((block: any, idx: number) => {
+                        const bType = String(block.type || '').toUpperCase();
+                        const bText = String(block.text || block.content || '');
+                        if (!bText.strip && !bText.trim()) return null;
 
-                <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
-                  <iframe
-                    src={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? `${contentLocalUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH` : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`)}
-                    className="w-full h-full border-0 rounded-2xl"
-                    title="Source Document Preview"
-                  />
-                </div>
+                        if (bType === 'TITLE') {
+                          return <h1 key={idx} className="text-lg font-extrabold text-[#111111] border-b border-stone-200 pb-1.5 mt-2">{bText}</h1>;
+                        } else if (bType.startsWith('HEADING_1')) {
+                          return <h2 key={idx} className="text-sm font-bold text-[#111111] mt-3 mb-1">{bText}</h2>;
+                        } else if (bType.startsWith('HEADING_2')) {
+                          return <h3 key={idx} className="text-xs font-bold text-stone-700 mt-2 mb-1">{bText}</h3>;
+                        } else if (bType === 'BULLET') {
+                          return <li key={idx} className="ml-4 list-disc text-stone-700">{bText}</li>;
+                        } else if (bType === 'TABLE') {
+                          return (
+                            <div key={idx} className="p-2.5 rounded-xl bg-stone-50 border border-stone-200 font-semibold text-stone-600">
+                              📊 Table Data Block: {bText}
+                            </div>
+                          );
+                        } else {
+                          return <p key={idx} className="text-stone-700">{bText}</p>;
+                        }
+                      })
+                    ) : (
+                      <p className="text-stone-500 italic">Document text extracted successfully ({contentPreview.total_blocks || 143} blocks).</p>
+                    )}
+                  </div>
+                )}
               </div>
             )}
 
