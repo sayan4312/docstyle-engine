@@ -633,23 +633,25 @@ export const DocStyleWorkspace: React.FC = () => {
               >
                 <Download className="w-4 h-4" /> Download DOCX
               </a>
-              <a
-                href={results.pdf_data_url || `${API_BASE}/download/${results.pdf_filename || 'Output Document.pdf'}`}
-                download={results.pdf_filename || "Output Document.pdf"}
-                className="flex-1 sm:flex-initial bg-[#E5DDD3] hover:bg-[#d8cec2] text-[#111111] px-5 py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-transform hover:scale-105"
-              >
-                <FileCheck className="w-4 h-4 text-[#111111]" /> Download Vector PDF
-              </a>
+              {(results.pdf_data_url || results.pdf_filename) && (
+                <a
+                  href={results.pdf_data_url || `${API_BASE}/download/${results.pdf_filename}`}
+                  download={results.pdf_filename || "Output Document.pdf"}
+                  className="flex-1 sm:flex-initial bg-[#E5DDD3] hover:bg-[#d8cec2] text-[#111111] px-5 py-2.5 rounded-full text-xs font-semibold flex items-center justify-center gap-2 transition-transform hover:scale-105"
+                >
+                  <FileCheck className="w-4 h-4 text-[#111111]" /> Download Vector PDF
+                </a>
+              )}
             </div>
           </div>
 
-          {/* Embedded Output Document Viewer (PDF Iframe or Interactive Restyled Canvas) */}
-          <div className="mt-6">
-            <div className="flex items-center justify-between mb-3">
-              <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center gap-2">
-                <FileCheck className="w-4 h-4 text-emerald-600" /> Live Restyled Document Viewer
-              </h4>
-              {(results.pdf_data_url || results.pdf_filename) && (
+          {/* Conditional PDF Document Viewer (Renders ONLY if PDF preview exists) */}
+          {(results.pdf_data_url || results.pdf_filename) && (
+            <div className="mt-6">
+              <div className="flex items-center justify-between mb-3">
+                <h4 className="text-xs font-bold uppercase tracking-wider text-stone-500 flex items-center gap-2">
+                  <FileCheck className="w-4 h-4 text-emerald-600" /> Restyled Document Preview
+                </h4>
                 <a
                   href={results.pdf_data_url || `${API_BASE}/preview/${results.pdf_filename}`}
                   target="_blank"
@@ -658,10 +660,7 @@ export const DocStyleWorkspace: React.FC = () => {
                 >
                   <Maximize2 className="w-3 h-3" /> Full Screen PDF
                 </a>
-              )}
-            </div>
-
-            {(results.pdf_data_url || results.pdf_filename) ? (
+              </div>
               <div className="w-full h-80 sm:h-[550px] rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
                 <iframe
                   src={formatPdfViewerUrl(results.pdf_data_url || `${API_BASE}/preview/${results.pdf_filename}`)}
@@ -669,61 +668,8 @@ export const DocStyleWorkspace: React.FC = () => {
                   title="Restyled Output Document Preview"
                 />
               </div>
-            ) : (
-              <div className="w-full h-80 sm:h-[550px] rounded-2xl border border-[#E5DDD3] bg-white p-6 sm:p-10 overflow-y-auto shadow-inner text-xs font-normal leading-relaxed text-stone-800 space-y-4">
-                {results.ast && results.ast.blocks && results.ast.blocks.length > 0 ? (
-                  results.ast.blocks.map((block: any, idx: number) => {
-                    const bType = String(block.type || '').toUpperCase();
-                    const bText = String(block.text || block.content || '');
-                    if (!bText.trim()) return null;
-
-                    const primaryColor = extractedStyles?.primary_color ? `#${extractedStyles.primary_color}` : '#1F3764';
-                    const fontFamily = extractedStyles?.font_family || 'Inter, sans-serif';
-
-                    if (bType === 'TITLE') {
-                      return (
-                        <h1 key={idx} style={{ color: primaryColor, fontFamily }} className="text-xl sm:text-2xl font-black border-b border-stone-200 pb-2 mt-2">
-                          {bText}
-                        </h1>
-                      );
-                    } else if (bType.startsWith('HEADING_1')) {
-                      return (
-                        <h2 key={idx} style={{ color: primaryColor, fontFamily }} className="text-base sm:text-lg font-extrabold mt-4 mb-1">
-                          {bText}
-                        </h2>
-                      );
-                    } else if (bType.startsWith('HEADING_2')) {
-                      return (
-                        <h3 key={idx} style={{ color: primaryColor, fontFamily }} className="text-sm font-bold mt-3 mb-1">
-                          {bText}
-                        </h3>
-                      );
-                    } else if (bType === 'BULLET') {
-                      return (
-                        <li key={idx} style={{ fontFamily }} className="ml-5 list-disc text-stone-700 font-medium">
-                          {bText}
-                        </li>
-                      );
-                    } else if (bType === 'TABLE') {
-                      return (
-                        <div key={idx} className="my-3 p-3 rounded-xl bg-stone-50 border border-stone-200 font-semibold text-stone-700">
-                          📊 Restyled Data Table ({bText})
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <p key={idx} style={{ fontFamily }} className="text-stone-700 leading-relaxed">
-                          {bText}
-                        </p>
-                      );
-                    }
-                  })
-                ) : (
-                  <p className="text-stone-500 italic">Document restyled successfully with 100% verbatim text integrity score.</p>
-                )}
-              </div>
-            )}
-          </div>
+            </div>
+          )}
         </div>
       )}
 

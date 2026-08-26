@@ -270,7 +270,7 @@ def process_pipeline():
     except Exception as e:
         return jsonify({"error": f"Pipeline execution failed: {str(e)}"}), 500
     finally:
-        for p in [template_path, content_path, output_docx_path, output_pdf_path]:
+        for p in [template_path, content_path]:
             if p and os.path.exists(p):
                 try:
                     os.remove(p)
@@ -282,6 +282,16 @@ def download_file(filename):
     file_path = os.path.join(OUTPUTS_DIR, filename)
     if not os.path.exists(file_path):
         file_path = os.path.join(TEMP_DIR, filename)
+    
+    # On-demand PDF conversion if PDF download requested but DOCX exists
+    if not os.path.exists(file_path) and filename.lower().endswith('.pdf'):
+        base_name = os.path.splitext(filename)[0] + '.docx'
+        docx_path = os.path.join(OUTPUTS_DIR, base_name)
+        if os.path.exists(docx_path):
+            pdf_path = os.path.join(OUTPUTS_DIR, filename)
+            if export_to_pdf(docx_path, pdf_path) and os.path.exists(pdf_path):
+                file_path = pdf_path
+
     if not os.path.exists(file_path):
         return jsonify({"error": f"File not found: {filename}"}), 404
     return send_file(file_path, as_attachment=True)
