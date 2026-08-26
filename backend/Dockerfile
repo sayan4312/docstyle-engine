@@ -5,9 +5,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libreoffice \
     fonts-dejavu \
     fonts-liberation \
+    fonts-croscore \
+    fonts-carlito \
+    fontconfig \
     gcc \
     g++ \
-    && rm -rf /var/lib/apt/lists/*
+    && rm -rf /var/lib/apt/lists/* && fc-cache -fv
 
 WORKDIR /app
 

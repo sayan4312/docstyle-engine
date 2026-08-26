@@ -104,7 +104,7 @@ def extract_styles_endpoint():
     try:
         model = analyze_template(file_path)
         
-        # Generate PDF preview if input is docx
+        # PDF preview url if input is natively a PDF
         import base64
         preview_filename = None
         preview_data_url = None
@@ -116,16 +116,6 @@ def extract_styles_endpoint():
                     preview_data_url = f"data:application/pdf;base64,{base64.b64encode(f.read()).decode('utf-8')}"
             except Exception:
                 pass
-        elif ext == '.docx':
-            preview_name = f"prev_{os.path.splitext(temp_filename)[0]}.pdf"
-            preview_path = os.path.join(OUTPUTS_DIR, preview_name)
-            if export_to_pdf(file_path, preview_path) and os.path.exists(preview_path):
-                preview_filename = preview_name
-                try:
-                    with open(preview_path, "rb") as f:
-                        preview_data_url = f"data:application/pdf;base64,{base64.b64encode(f.read()).decode('utf-8')}"
-                except Exception:
-                    pass
 
         primary_font = model.styles.get("PARAGRAPH", {}).font_family if hasattr(model.styles.get("PARAGRAPH"), "font_family") else "Calibri"
 
@@ -194,7 +184,7 @@ def inspect_endpoint():
 
         ast = classify_ast_blocks(ast)
 
-        # Generate PDF preview for DOCX
+        # Convert Document B to PDF preview so it displays as the exact original document
         import base64
         preview_filename = None
         preview_data_url = None

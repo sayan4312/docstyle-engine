@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import {
   FileText,
   CheckCircle2,
@@ -20,6 +20,12 @@ import {
 } from 'lucide-react';
 
 const API_BASE = import.meta.env.VITE_API_BASE || (typeof window !== 'undefined' && (window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1') ? 'http://127.0.0.1:5000/api' : 'https://docstyle-backend.onrender.com/api');
+
+const formatPdfViewerUrl = (rawUrl: string | null | undefined): string => {
+  if (!rawUrl) return '';
+  if (rawUrl.includes('#toolbar=')) return rawUrl;
+  return `${rawUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`;
+};
 
 export const DocStyleWorkspace: React.FC = () => {
   // Uploaded Files
@@ -321,7 +327,7 @@ export const DocStyleWorkspace: React.FC = () => {
 
                 <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
                   <iframe
-                    src={templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? `${templateLocalUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH` : (templatePreviewData?.preview_pdf_data_url || `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`)}
+                    src={formatPdfViewerUrl(templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? templateLocalUrl : (templatePreviewData?.preview_pdf_data_url || `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}`))}
                     className="w-full h-full border-0 rounded-2xl"
                     title="Template Document Preview"
                   />
@@ -492,7 +498,7 @@ export const DocStyleWorkspace: React.FC = () => {
                 {((contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl) || contentPreview?.preview_pdf_data_url || contentPreview?.preview_pdf_filename) ? (
                   <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
                     <iframe
-                      src={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? `${contentLocalUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH` : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`)}
+                      src={formatPdfViewerUrl(contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? contentLocalUrl : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}`))}
                       className="w-full h-full border-0 rounded-2xl"
                       title="Source Document Preview"
                     />
@@ -660,7 +666,7 @@ export const DocStyleWorkspace: React.FC = () => {
             {(results.pdf_data_url || results.pdf_filename) ? (
               <div className="w-full h-80 sm:h-[550px] rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
                 <iframe
-                  src={results.pdf_data_url || `${API_BASE}/preview/${results.pdf_filename}#toolbar=1&navpanes=0&scrollbar=0&view=FitH`}
+                  src={formatPdfViewerUrl(results.pdf_data_url || `${API_BASE}/preview/${results.pdf_filename}`)}
                   className="w-full h-full border-0 rounded-2xl"
                   title="Restyled Output Document Preview"
                 />
