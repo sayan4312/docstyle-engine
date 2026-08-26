@@ -6,7 +6,7 @@ BACKEND_DIR = os.path.join(BASE_DIR, 'backend')
 if BACKEND_DIR not in sys.path:
     sys.path.insert(0, BACKEND_DIR)
 
-from server import app
+from backend.server import app
 
 if __name__ == '__main__':
     port = int(os.environ.get('PORT', 5000))
