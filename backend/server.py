@@ -95,16 +95,11 @@ def extract_styles_endpoint():
         file_path = os.path.join(TEMP_DIR, temp_filename)
         uploaded.save(file_path)
         is_uploaded = True
-    elif 'preset' in req_data:
-        preset_name = req_data['preset']
-        file_path = os.path.join(SAMPLES_DIR, preset_name)
-        temp_filename = preset_name
     else:
-        file_path = os.path.join(SAMPLES_DIR, 'Document A.docx')
-        temp_filename = 'Document A.docx'
+        return jsonify({"error": "No template file uploaded. Please upload a template document."}), 400
 
     if not file_path or not os.path.exists(file_path):
-        return jsonify({"error": f"File not found: {file_path}"}), 404
+        return jsonify({"error": "Uploaded template file missing."}), 404
 
     try:
         model = analyze_template(file_path)
@@ -182,16 +177,11 @@ def inspect_endpoint():
         file_path = os.path.join(TEMP_DIR, temp_filename)
         uploaded.save(file_path)
         is_uploaded = True
-    elif 'preset' in req_data:
-        preset_name = req_data['preset']
-        file_path = os.path.join(SAMPLES_DIR, preset_name)
-        temp_filename = preset_name
     else:
-        file_path = os.path.join(SAMPLES_DIR, 'Document B.docx')
-        temp_filename = 'Document B.docx'
+        return jsonify({"error": "No content file uploaded. Please upload a content document."}), 400
 
     if not file_path or not os.path.exists(file_path):
-        return jsonify({"error": f"File not found: {file_path}"}), 404
+        return jsonify({"error": "Uploaded content file missing."}), 404
 
     try:
         ext = os.path.splitext(file_path)[1].lower()
@@ -262,8 +252,7 @@ def process_pipeline():
         tf.save(template_path)
         t_is_uploaded = True
     else:
-        t_preset = req_data.get('template_preset') or 'Document A.docx'
-        template_path = os.path.join(SAMPLES_DIR, t_preset)
+        return jsonify({"error": "No template file provided. Please upload Document A."}), 400
 
     cf = request.files.get('content') or request.files.get('content_file') or request.files.get('doc_b')
     if cf and cf.filename:
@@ -271,8 +260,7 @@ def process_pipeline():
         cf.save(content_path)
         c_is_uploaded = True
     else:
-        c_preset = req_data.get('content_preset') or 'Document B.docx'
-        content_path = os.path.join(SAMPLES_DIR, c_preset)
+        return jsonify({"error": "No content file provided. Please upload Document B."}), 400
 
     if not os.path.exists(template_path):
         return jsonify({"error": f"Template file missing: {template_path}"}), 404
@@ -284,6 +272,7 @@ def process_pipeline():
         output_name += '.docx'
 
     output_docx_path = os.path.join(OUTPUTS_DIR, output_name)
+    output_pdf_path = os.path.splitext(output_docx_path)[0] + '.pdf'
 
     try:
         res = run_docstyle_pipeline(template_path, content_path, output_docx_path)
@@ -291,16 +280,12 @@ def process_pipeline():
     except Exception as e:
         return jsonify({"error": f"Pipeline execution failed: {str(e)}"}), 500
     finally:
-        if t_is_uploaded and template_path and os.path.exists(template_path):
-            try:
-                os.remove(template_path)
-            except Exception:
-                pass
-        if c_is_uploaded and content_path and os.path.exists(content_path):
-            try:
-                os.remove(content_path)
-            except Exception:
-                pass
+        for p in [template_path, content_path, output_docx_path, output_pdf_path]:
+            if p and os.path.exists(p):
+                try:
+                    os.remove(p)
+                except Exception:
+                    pass
 
 @app.route('/api/download/<path:filename>', methods=['GET'])
 def download_file(filename):
