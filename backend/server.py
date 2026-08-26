@@ -57,6 +57,7 @@ clean_all_temp_files()
 app = Flask(__name__)
 CORS(app)
 
+@app.route('/', methods=['GET'])
 @app.route('/api/health', methods=['GET'])
 def health():
     samples_count = len(os.listdir(SAMPLES_DIR)) if os.path.exists(SAMPLES_DIR) else 0
