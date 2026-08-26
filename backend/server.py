@@ -110,15 +110,27 @@ def extract_styles_endpoint():
         model = analyze_template(file_path)
         
         # Generate PDF preview if input is docx
+        import base64
         preview_filename = None
+        preview_data_url = None
         ext = os.path.splitext(file_path)[1].lower()
-        if ext == '.pdf':
+        if ext == '.pdf' and os.path.exists(file_path):
             preview_filename = temp_filename
+            try:
+                with open(file_path, "rb") as f:
+                    preview_data_url = f"data:application/pdf;base64,{base64.b64encode(f.read()).decode('utf-8')}"
+            except Exception:
+                pass
         elif ext == '.docx':
             preview_name = f"prev_{os.path.splitext(temp_filename)[0]}.pdf"
             preview_path = os.path.join(OUTPUTS_DIR, preview_name)
-            if export_to_pdf(file_path, preview_path):
+            if export_to_pdf(file_path, preview_path) and os.path.exists(preview_path):
                 preview_filename = preview_name
+                try:
+                    with open(preview_path, "rb") as f:
+                        preview_data_url = f"data:application/pdf;base64,{base64.b64encode(f.read()).decode('utf-8')}"
+                except Exception:
+                    pass
 
         primary_font = model.styles.get("PARAGRAPH", {}).font_family if hasattr(model.styles.get("PARAGRAPH"), "font_family") else "Calibri"
 
@@ -145,7 +157,8 @@ def extract_styles_endpoint():
                 "margin_right": model.margin_right,
                 "line_spacing": 1.15
             },
-            "preview_pdf_filename": preview_filename
+            "preview_pdf_filename": preview_filename,
+            "preview_pdf_data_url": preview_data_url
         })
     except Exception as e:
         return jsonify({"error": f"Style extraction failed: {str(e)}"}), 500
@@ -192,14 +205,26 @@ def inspect_endpoint():
         ast = classify_ast_blocks(ast)
 
         # Generate PDF preview for DOCX
+        import base64
         preview_filename = None
-        if ext == '.pdf':
+        preview_data_url = None
+        if ext == '.pdf' and os.path.exists(file_path):
             preview_filename = temp_filename
+            try:
+                with open(file_path, "rb") as f:
+                    preview_data_url = f"data:application/pdf;base64,{base64.b64encode(f.read()).decode('utf-8')}"
+            except Exception:
+                pass
         elif ext == '.docx':
             preview_name = f"prev_{os.path.splitext(temp_filename)[0]}.pdf"
             preview_path = os.path.join(OUTPUTS_DIR, preview_name)
-            if export_to_pdf(file_path, preview_path):
+            if export_to_pdf(file_path, preview_path) and os.path.exists(preview_path):
                 preview_filename = preview_name
+                try:
+                    with open(preview_path, "rb") as f:
+                        preview_data_url = f"data:application/pdf;base64,{base64.b64encode(f.read()).decode('utf-8')}"
+                except Exception:
+                    pass
 
         blocks = [b.to_dict() for b in ast.blocks]
 
@@ -209,7 +234,8 @@ def inspect_endpoint():
             "blocks": blocks,
             "sample_blocks": blocks[:10],
             "temp_filename": temp_filename,
-            "preview_pdf_filename": preview_filename
+            "preview_pdf_filename": preview_filename,
+            "preview_pdf_data_url": preview_data_url
         })
     except Exception as e:
         return jsonify({"error": f"Inspection failed: {str(e)}"}), 500

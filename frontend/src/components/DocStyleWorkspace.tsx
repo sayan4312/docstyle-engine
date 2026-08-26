@@ -290,14 +290,14 @@ export const DocStyleWorkspace: React.FC = () => {
             )}
 
             {/* FIRST: Template Document Preview Viewer */}
-            {((templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl) || templatePreviewData?.preview_pdf_filename) && (
+            {((templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl) || templatePreviewData?.preview_pdf_data_url || templatePreviewData?.preview_pdf_filename) && (
               <div className="mt-4 mb-5">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-[#111111] flex items-center gap-1.5">
                     <File className="w-3.5 h-3.5" /> Template Document Preview
                   </span>
                   <a
-                    href={templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? templateLocalUrl : `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}`}
+                    href={templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? templateLocalUrl : (templatePreviewData?.preview_pdf_data_url || `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}`)}
                     target="_blank"
                     rel="noreferrer"
                     className="text-[11px] font-semibold text-stone-600 hover:text-black underline flex items-center gap-1"
@@ -308,7 +308,7 @@ export const DocStyleWorkspace: React.FC = () => {
 
                 {/* Mobile Quick Tap Banner for Phones */}
                 <a 
-                  href={templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? templateLocalUrl : `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}`}
+                  href={templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? templateLocalUrl : (templatePreviewData?.preview_pdf_data_url || `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}`)}
                   target="_blank" 
                   rel="noreferrer"
                   className="flex sm:hidden items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#111111] text-white text-xs font-semibold mb-2 shadow-xs"
@@ -321,7 +321,7 @@ export const DocStyleWorkspace: React.FC = () => {
 
                 <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
                   <iframe
-                    src={templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? `${templateLocalUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH` : `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                    src={templateFile?.name.toLowerCase().endsWith('.pdf') && templateLocalUrl ? `${templateLocalUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH` : (templatePreviewData?.preview_pdf_data_url || `${API_BASE}/preview/${templatePreviewData?.preview_pdf_filename}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`)}
                     className="w-full h-full border-0 rounded-2xl"
                     title="Template Document Preview"
                   />
@@ -471,14 +471,14 @@ export const DocStyleWorkspace: React.FC = () => {
             )}
 
             {/* FIRST: Source Document Preview Viewer */}
-            {((contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl) || contentPreview?.preview_pdf_filename) && (
+            {((contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl) || contentPreview?.preview_pdf_data_url || contentPreview?.preview_pdf_filename) && (
               <div className="mt-4 mb-5">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-xs font-bold text-[#111111] flex items-center gap-1.5">
                     <FileText className="w-3.5 h-3.5" /> Source Document Preview
                   </span>
                   <a
-                    href={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? contentLocalUrl : `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}`}
+                    href={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? contentLocalUrl : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}`)}
                     target="_blank"
                     rel="noreferrer"
                     className="text-[11px] font-semibold text-stone-600 hover:text-black underline flex items-center gap-1"
@@ -489,7 +489,7 @@ export const DocStyleWorkspace: React.FC = () => {
 
                 {/* Mobile Quick Tap Banner for Phones */}
                 <a 
-                  href={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? contentLocalUrl : `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}`}
+                  href={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? contentLocalUrl : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}`)}
                   target="_blank" 
                   rel="noreferrer"
                   className="flex sm:hidden items-center justify-between px-3.5 py-2.5 rounded-xl bg-[#111111] text-white text-xs font-semibold mb-2 shadow-xs"
@@ -502,7 +502,7 @@ export const DocStyleWorkspace: React.FC = () => {
 
                 <div className="w-full h-80 sm:h-96 rounded-2xl overflow-hidden border border-[#E5DDD3] bg-stone-100 shadow-inner">
                   <iframe
-                    src={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? `${contentLocalUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH` : `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`}
+                    src={contentFile?.name.toLowerCase().endsWith('.pdf') && contentLocalUrl ? `${contentLocalUrl}#toolbar=0&navpanes=0&scrollbar=0&view=FitH` : (contentPreview?.preview_pdf_data_url || `${API_BASE}/preview/${contentPreview?.preview_pdf_filename}#toolbar=0&navpanes=0&scrollbar=0&view=FitH`)}
                     className="w-full h-full border-0 rounded-2xl"
                     title="Source Document Preview"
                   />
